@@ -1,0 +1,14 @@
+- name: Deploy php app
+  hosts: webservers
+  become: true
+  roles:
+    - common
+    - nginx
+  tasks:
+    - name: Run docker containers
+      community.docker.docker_compose_v2:
+        project_src: "/home/{{ ansible_ssh_user }}/test-project/"
+        check_files_existing: true
+        state: present
+        build: always
+        recreate: auto

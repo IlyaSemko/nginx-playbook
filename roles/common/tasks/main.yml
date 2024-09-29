@@ -1,0 +1,28 @@
+- name: Create workdir
+  ansible.builtin.file:
+    dest: "/home/{{ ansible_ssh_user }}/test-project"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: "0755"
+
+- name: Copy Docker files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/home/{{ ansible_ssh_user }}/test-project/{{ item }}"
+    mode: "0755"
+  loop:
+    - ./docker-compose.yaml
+    - ./Dockerfile
+
+- name: Copy php files
+  ansible.builtin.copy:
+    src: ./php
+    dest: "/home/{{ ansible_ssh_user }}/test-project"
+    mode: "0755"
+
+- name: Copy db files
+  ansible.builtin.copy:
+    src: ./db
+    dest: "/home/{{ ansible_ssh_user }}/test-project"
+    mode: "0755"
